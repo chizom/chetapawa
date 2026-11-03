@@ -1,5 +1,8 @@
 <template>
-  <slot />
+  <div>
+    <slot />
+    <MockBadge />
+  </div>
 </template>
 
 <script lang="ts">

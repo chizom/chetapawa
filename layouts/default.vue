@@ -17,6 +17,7 @@
         <p class="muted">Non-custodial tips, settled by NEAR Intents. Built for the NEAR HACKATHON.</p>
       </div>
     </footer>
+    <MockBadge />
   </div>
 </template>
 
