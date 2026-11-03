@@ -1,5 +1,6 @@
 <template>
   <div class="shell">
+    <MockBadge variant="bar" />
     <header class="site-header">
       <div class="container header-inner">
         <NuxtLink to="/" class="brand">
@@ -17,7 +18,6 @@
         <p class="muted">Non-custodial tips, settled by NEAR Intents. Built for the NEAR HACKATHON.</p>
       </div>
     </footer>
-    <MockBadge />
   </div>
 </template>
 

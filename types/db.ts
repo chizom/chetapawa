@@ -5,7 +5,7 @@ export type TipStatus = 'pending' | 'processing' | 'success' | 'failed' | 'refun
 
 export const TERMINAL_TIP_STATUSES: readonly TipStatus[] = ['success', 'failed', 'refunded', 'expired']
 
-export interface CreatorRow {
+export type CreatorRow = {
   id: string
   handle: string
   display_name: string
@@ -21,7 +21,7 @@ export interface CreatorRow {
 /** Creator fields that are safe to send to the browser. */
 export type PublicCreator = Omit<CreatorRow, 'manage_token_hash'>
 
-export interface GoalRow {
+export type GoalRow = {
   id: string
   creator_id: string
   title: string
@@ -31,7 +31,7 @@ export interface GoalRow {
   completed_at: string | null
 }
 
-export interface TipRow {
+export type TipRow = {
   id: string
   creator_id: string
   goal_id: string | null
@@ -50,7 +50,7 @@ export interface TipRow {
   settled_at: string | null
 }
 
-export interface GoalProgressRow {
+export type GoalProgressRow = {
   goal_id: string
   creator_id: string
   title: string
@@ -97,8 +97,8 @@ export interface Database {
         Relationships: []
       }
     }
-    Functions: Record<string, never>
-    Enums: Record<string, never>
-    CompositeTypes: Record<string, never>
+    Functions: { [_ in never]: never }
+    Enums: { [_ in never]: never }
+    CompositeTypes: { [_ in never]: never }
   }
 }

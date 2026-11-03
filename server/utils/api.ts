@@ -1,4 +1,5 @@
 import type { EventHandler, EventHandlerRequest, H3Event } from 'h3'
+import type { z, ZodType } from 'zod'
 import type { ApiErrorBody } from '~~/types/api'
 
 /**
@@ -29,4 +30,24 @@ export function defineApiHandler<T>(
 
 export function badRequest(message: string): Error {
   return createError({ statusCode: 400, statusMessage: 'Bad request', data: { error: message } })
+}
+
+export function notFound(message: string): Error {
+  return createError({ statusCode: 404, statusMessage: 'Not found', data: { error: message } })
+}
+
+/** Read and validate a JSON body with zod. Throws a 400 with the first issue's message. */
+export async function parseBody<S extends ZodType>(event: H3Event, schema: S): Promise<z.output<S>> {
+  let raw: unknown
+  try {
+    raw = await readBody(event)
+  } catch {
+    throw badRequest('Request body must be valid JSON.')
+  }
+  const result = schema.safeParse(raw ?? {})
+  if (!result.success) {
+    // Schemas carry human messages, so return the first one as is.
+    throw badRequest(result.error.issues[0]?.message ?? 'Invalid input.')
+  }
+  return result.data
 }

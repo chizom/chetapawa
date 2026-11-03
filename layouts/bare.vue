@@ -1,7 +1,7 @@
 <template>
   <div>
     <slot />
-    <MockBadge />
+    <MockBadge variant="corner" />
   </div>
 </template>
 

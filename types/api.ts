@@ -43,4 +43,52 @@ export interface AppConfigResponse {
   mock: boolean
 }
 
+export interface GoalWithProgress {
+  id: string
+  title: string
+  /** Goal target in USD. */
+  targetAmount: number
+  /** USD value of successful tips tied to this goal. */
+  raised: number
+  /** 0 to 100, capped. */
+  percent: number
+  tipCount: number
+  completed: boolean
+  completedAt: string | null
+  unit: 'USD'
+}
+
+export interface PublicCreatorInfo {
+  handle: string
+  displayName: string
+  bio: string | null
+  payoutAddress: string
+  destAssetId: string
+  destAssetSymbol: string
+  destChain: string
+  createdAt: string
+}
+
+export interface CreatorPublicResponse {
+  creator: PublicCreatorInfo
+  goal: GoalWithProgress | null
+}
+
+export interface CreateCreatorRequest {
+  handle: string
+  displayName: string
+  bio?: string
+  payoutAddress: string
+  destAssetId: string
+}
+
+export interface CreateCreatorResponse {
+  creator: PublicCreatorInfo
+  /** Raw manage token. Returned exactly once, never stored in plain text. */
+  manageToken: string
+  tipUrl: string
+  manageUrl: string
+  overlayUrl: string
+}
+
 export type { TipStatus }
