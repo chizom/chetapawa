@@ -25,16 +25,15 @@ export default defineNuxtConfig({
       ]
     }
   },
+  // Server secrets (SUPABASE_SERVICE_ROLE_KEY, ONE_CLICK_JWT, ...) are NOT listed here.
+  // They are read from process.env at runtime in server/utils/env.ts, so they are
+  // never baked into build output. Public values below are overridden at runtime
+  // by the matching NUXT_PUBLIC_* env vars.
   runtimeConfig: {
-    // Server only. Never exposed to the browser.
-    supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
-    oneClickApiBase: process.env.ONE_CLICK_API_BASE || 'https://1click.chaindefuser.com',
-    oneClickJwt: process.env.ONE_CLICK_JWT || '',
-    mockIntents: process.env.MOCK_INTENTS === 'true',
     public: {
-      supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL || '',
-      supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY || '',
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+      supabaseUrl: '',
+      supabaseAnonKey: '',
+      siteUrl: 'http://localhost:3000'
     }
   }
 })
