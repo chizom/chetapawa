@@ -156,15 +156,28 @@
         <p v-if="pollError" class="muted small" role="status">{{ pollError }}</p>
 
         <div class="actions">
-          <button
-            v-if="tip.status !== 'pending' || isExpired"
-            class="btn btn-primary"
-            type="button"
-            @click="startOver"
-          >
+          <!-- In flight: keep the fan on this tip until it finishes, so the status is never lost. -->
+          <template v-if="tip.status === 'processing'">
+            <button class="btn btn-primary" type="button" disabled aria-describedby="another-hint">Send another tip</button>
+            <p id="another-hint" class="muted small hint-center">You can send another tip once this one is delivered.</p>
+          </template>
+
+          <!-- Waiting for deposit: allow cancelling, but confirm first in case funds are already on the way. -->
+          <template v-else-if="tip.status === 'pending' && !isExpired">
+            <div v-if="confirmCancel" class="confirm" role="group" aria-label="Confirm cancel">
+              <p class="small">Only cancel if you have <strong>not</strong> sent anything yet. If you already sent funds, keep this page open.</p>
+              <div class="confirm-row">
+                <button class="btn btn-primary btn-sm" type="button" @click="startOver">Yes, cancel</button>
+                <button class="btn btn-ghost btn-sm" type="button" @click="confirmCancel = false">Keep waiting</button>
+              </div>
+            </div>
+            <button v-else class="btn btn-ghost btn-sm" type="button" @click="confirmCancel = true">Cancel and start over</button>
+          </template>
+
+          <!-- Finished (delivered, refunded, failed or expired). -->
+          <button v-else class="btn btn-primary" type="button" @click="startOver">
             {{ tip.status === 'success' ? 'Send another tip' : 'Start a new tip' }}
           </button>
-          <button v-else class="btn btn-ghost btn-sm" type="button" @click="startOver">Cancel and start over</button>
         </div>
       </section>
 
@@ -342,6 +355,7 @@ export default defineComponent({
       txSubmitting: false,
       txError: '',
       txSent: false,
+      confirmCancel: false,
       quickUsd: [1, 2, 5]
     }
   },
@@ -573,6 +587,7 @@ export default defineComponent({
     },
 
     startOver() {
+      this.confirmCancel = false
       this.stopPolling()
       this.forgetTip()
       this.tip = null
@@ -668,6 +683,10 @@ export default defineComponent({
 .result.ok { background: #E6F5ED; }
 .result.bad { background: #FDE7E5; }
 .txs { margin: 8px 0 0; padding-left: 18px; font-size: 0.9rem; }
-.actions { margin-top: 16px; display: flex; justify-content: center; }
+.actions { margin-top: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.hint-center { margin: 0; text-align: center; }
+.confirm { width: 100%; padding: 12px 14px; border-radius: var(--radius-sm); background: #FFF4D6; border: 1px solid #F0D48A; }
+.confirm p { margin: 0 0 10px; }
+.confirm-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .fine { margin: 12px 0 0; text-align: center; }
 </style>

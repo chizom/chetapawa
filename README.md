@@ -49,3 +49,4 @@ Work in progress. The full README is written in the final build step.
 - "End goal" uses an inline "Yes, end it" confirmation instead of a browser dialog.
 - The dashboard refreshes every 8 seconds while the tab is visible, and pauses while the goal form is open. A saved goal shows immediately, and a refresh that started before a save is ignored, so stale data never overwrites a change.
 - "Remember on this device" keeps the manage token in `localStorage` under `cgt_manage_<handle>`. "Lock" removes it. A stored token that stops working is removed automatically.
+- While a tip is processing, "Send another tip" is disabled so the fan cannot lose the status tracker mid-swap. While waiting for the deposit, "Cancel and start over" asks for confirmation first, in case funds are already on the way.
