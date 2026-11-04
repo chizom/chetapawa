@@ -91,4 +91,73 @@ export interface CreateCreatorResponse {
   overlayUrl: string
 }
 
+export interface TipPreviewRequest {
+  handle: string
+  originAssetId: string
+  /** Human units of the origin token, e.g. "1.5". */
+  amount: string
+}
+
+export interface TipPreviewResponse {
+  amountIn: string
+  amountInUsd: number | null
+  /** Estimated amount the creator receives, human units. */
+  estimatedOut: string
+  estimatedOutUsd: number | null
+  destSymbol: string
+  destChain: string
+  timeEstimateSec: number
+}
+
+export interface TipQuoteRequest extends TipPreviewRequest {
+  /** Fan's own address on the origin chain. 1Click refunds here if the swap cannot complete. */
+  refundAddress: string
+  tipperName?: string
+  message?: string
+}
+
+/** A tip as shown to the fan who sent it. Contains nothing secret. */
+export interface PublicTip {
+  id: string
+  handle: string
+  status: TipStatus
+  originAssetId: string
+  originSymbol: string
+  originChain: string
+  /** Exact amount the fan must send, human units. */
+  amountIn: string
+  /** Estimate until delivered, then the delivered amount. Human units. */
+  amountOut: string | null
+  amountOutUsd: number | null
+  destSymbol: string
+  destChain: string
+  depositAddress: string
+  depositMemo: string | null
+  expiresAt: string | null
+  createdAt: string
+  settledAt: string | null
+  tipperName: string | null
+  message: string | null
+}
+
+/** Extra detail from the latest live 1Click check, when there was one. */
+export interface TipLiveDetail {
+  rawStatus: OneClickStatus
+  refundReason: string | null
+  refundedAmount: string | null
+  originTxs: TxLink[]
+  destinationTxs: TxLink[]
+}
+
+export interface TipResponse {
+  tip: PublicTip
+  live: TipLiveDetail | null
+  timeEstimateSec?: number
+}
+
+export interface SubmitDepositRequest {
+  txHash: string
+  nearSenderAccount?: string
+}
+
 export type { TipStatus }

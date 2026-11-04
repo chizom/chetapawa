@@ -28,3 +28,15 @@ Work in progress. The full README is written in the final build step.
 - Creating a page is rate limited to 5 per IP per 10 minutes, in memory. The IP comes from `x-forwarded-for`, which the hosting platform sets. The limiter resets on server restarts, which is acceptable for a demo.
 - In mock mode a full-width yellow strip sits above the header on every page, so it never covers content. The OBS overlay uses a small corner pill instead.
 - Coral (`#FF6B4A`) is used for fills with charcoal text. Primary text buttons use rust (`#B44226`) with white text so they pass WCAG AA contrast.
+- `cz_tips` has four columns beyond the brief's data model: `amount_in_formatted` and `amount_out_formatted` (human units, so the overlay and dashboard never need token decimals), `quote_out_usd` (the quote's USD estimate) and `expires_at` (the deposit deadline 1Click returns). `schema.sql` adds them with `add column if not exists`, so re-running it upgrades older databases.
+- Goal math: progress is the sum of `amount_out_usd` over successful tips tied to the goal. `amount_out_usd` comes from 1Click's status response. If 1Click does not report it, we store the quote's USD estimate instead, as the brief allows. When a success pushes a goal past its target, `completed_at` is stamped once so the overlay celebrates once.
+- A tip is tied to the creator's goal that was active when the fan requested the deposit address.
+- Tip statuses only move forward (pending, then processing, then a final state). Updates are conditional on the previous status, so two pollers can never overwrite each other. Each tip's live 1Click check is reused for 3 seconds.
+- `expired` is set when a tip is still waiting for its deposit after the 1Click deadline. Expired tips are still re-checked for 48 hours, so a late deposit shows up as refunded (or processed) instead of disappearing.
+- The fan's refund address is sent to 1Click but never stored in our database.
+- The tip page remembers the fan's open tip in `localStorage` (`cgt_tip_<handle>`), so a reload never loses the deposit address. "Start a new tip" clears it.
+- The receive estimate uses a dry quote, debounced by 600 ms. Quick-amount buttons ($1, $2, $5) use the token list's USD price and round to 3 significant figures.
+- The QR code holds only the deposit address, which every wallet can scan. Amount and memo are shown with their own copy buttons. Memo chains (Stellar) show a red "memo required" warning.
+- The optional "Already sent? Speed it up" box forwards a transaction hash to 1Click's `POST /v0/deposit/submit`.
+- Rate limits per IP: previews 60 per minute, deposit addresses 10 per 10 minutes (and 60 per 10 minutes per creator), status checks 120 per minute, tx hash submits 10 per 10 minutes.
+- Name and message are trimmed, control characters removed, and capped at 40 and 140 characters. They are rendered as text, never as HTML.

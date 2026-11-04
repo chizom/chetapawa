@@ -49,9 +49,13 @@ create table if not exists public.cz_tips (
   origin_asset_id      text not null,
   origin_asset_symbol  text not null,
   origin_chain         text not null,
-  amount_in            text not null,
-  amount_out           text,
-  amount_out_usd       numeric,
+  amount_in            text not null,              -- base units, exactly as sent to the quote
+  amount_in_formatted  text,                       -- human units, for display
+  amount_out           text,                       -- base units, filled on success
+  amount_out_formatted text,                       -- human units, quote estimate until success
+  amount_out_usd       numeric,                    -- filled on success (falls back to quote_out_usd)
+  quote_out_usd        numeric,                    -- USD estimate from the quote
+  expires_at           timestamptz,                -- deposit deadline returned by 1Click
   deposit_address      text not null,
   deposit_memo         text,
   status               text not null default 'pending'
@@ -61,6 +65,12 @@ create table if not exists public.cz_tips (
   created_at           timestamptz not null default now(),
   settled_at           timestamptz
 );
+
+-- Columns added in step 5. Safe to re-run on databases created before them.
+alter table public.cz_tips add column if not exists amount_in_formatted  text;
+alter table public.cz_tips add column if not exists amount_out_formatted text;
+alter table public.cz_tips add column if not exists quote_out_usd        numeric;
+alter table public.cz_tips add column if not exists expires_at           timestamptz;
 
 create index if not exists cz_tips_creator_created_idx
   on public.cz_tips (creator_id, created_at desc);

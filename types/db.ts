@@ -38,9 +38,17 @@ export type TipRow = {
   origin_asset_id: string
   origin_asset_symbol: string
   origin_chain: string
+  /** Base units, as sent to the quote. */
   amount_in: string
+  amount_in_formatted: string | null
+  /** Base units of the creator's receive asset, filled on success. */
   amount_out: string | null
+  /** Quote estimate until the tip settles, then the delivered amount. */
+  amount_out_formatted: string | null
   amount_out_usd: number | null
+  quote_out_usd: number | null
+  /** Deposit deadline returned by 1Click. */
+  expires_at: string | null
   deposit_address: string
   deposit_memo: string | null
   status: TipStatus
@@ -86,6 +94,7 @@ export interface Database {
           TipRow,
           | 'id' | 'created_at' | 'goal_id' | 'amount_out' | 'amount_out_usd'
           | 'deposit_memo' | 'status' | 'tipper_name' | 'message' | 'settled_at'
+          | 'amount_in_formatted' | 'amount_out_formatted' | 'quote_out_usd' | 'expires_at'
         >
         Update: Partial<TipRow>
         Relationships: []
