@@ -40,3 +40,17 @@ export function rateLimit(event: H3Event, key: string, limit: number, windowMs: 
     throw createError({ statusCode: 429, statusMessage: 'Too many requests', data: { error: `Too many requests. Try again in ${retry} seconds.` } })
   }
 }
+
+/**
+ * Throws 429 if `key` has already reached `limit` in its current window, without counting
+ * this request. Pair it with rateLimit() on failure only, e.g. to lock out repeated bad tokens.
+ */
+export function assertUnderLimit(event: H3Event, key: string, limit: number): void {
+  const now = Date.now()
+  const b = buckets.get(key)
+  if (b && b.resetAt > now && b.count >= limit) {
+    const retry = Math.max(1, Math.ceil((b.resetAt - now) / 1000))
+    setResponseHeader(event, 'Retry-After', retry)
+    throw createError({ statusCode: 429, statusMessage: 'Too many requests', data: { error: `Too many failed attempts. Try again in ${retry} seconds.` } })
+  }
+}

@@ -61,3 +61,11 @@ export function dbError(action: string, error: { message: string; code?: string 
   console.error(`[db] ${action} failed:`, error.code ?? '', error.message)
   return createError({ statusCode: 500, statusMessage: 'Database error', data: { error: 'Something went wrong. Please try again.' } })
 }
+
+/** One goal with its progress, or null. */
+export async function getGoalProgress(goalId: string): Promise<GoalWithProgress | null> {
+  const db = useServerSupabase()
+  const { data, error } = await db.from('cz_goal_progress').select('*').eq('goal_id', goalId).maybeSingle()
+  if (error) throw dbError('load goal', error)
+  return data ? toGoalWithProgress(data) : null
+}

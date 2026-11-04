@@ -160,4 +160,34 @@ export interface SubmitDepositRequest {
   nearSenderAccount?: string
 }
 
+export interface CreateGoalRequest {
+  handle: string
+  title: string
+  /** USD. */
+  targetAmount: number
+}
+
+/** Edit the active goal's title or target, or end it. */
+export interface UpdateGoalRequest {
+  title?: string
+  targetAmount?: number
+  end?: boolean
+}
+
+export interface GoalResponse {
+  goal: GoalWithProgress
+}
+
+export interface DashboardResponse {
+  creator: PublicCreatorInfo
+  goal: GoalWithProgress | null
+  /** Most recent ended goals, newest first. */
+  pastGoals: GoalWithProgress[]
+  /** Most recent tips, newest first. */
+  tips: PublicTip[]
+  totals: { successCount: number; totalUsd: number }
+  tipUrl: string
+  overlayUrl: string
+}
+
 export type { TipStatus }

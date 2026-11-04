@@ -43,6 +43,6 @@ export async function resolveTip(input: { handle: string; originAssetId: string;
   } catch (err) {
     throw badRequest(err instanceof Error ? err.message : 'Enter a valid amount.')
   }
-  if (BigInt(amountBase) <= 0n) throw badRequest('Amount must be more than zero.')
+  if (BigInt(amountBase) <= BigInt(0)) throw badRequest('Amount must be more than zero.')
   return { creator, origin, amountBase }
 }

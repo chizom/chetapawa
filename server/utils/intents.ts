@@ -438,9 +438,9 @@ async function mockQuote(input: QuoteInput): Promise<QuoteResult> {
   const outUsd = inUsd * 0.993 // pretend fees
   const outHuman = outUsd / dest.priceUsd
   const outFormatted = outHuman.toFixed(Math.min(dest.decimals, 6)).replace(/\.?0+$/, '')
-  const outBase = (BigInt(Math.floor(outHuman * 1e6)) * 10n ** BigInt(Math.max(dest.decimals - 6, 0)) /
-    10n ** BigInt(Math.max(6 - dest.decimals, 0))).toString()
-  const minOutBase = (BigInt(outBase) * 99n / 100n).toString()
+  const outBase = (BigInt(Math.floor(outHuman * 1e6)) * BigInt(10) ** BigInt(Math.max(dest.decimals - 6, 0)) /
+    BigInt(10) ** BigInt(Math.max(6 - dest.decimals, 0))).toString()
+  const minOutBase = (BigInt(outBase) * BigInt(99) / BigInt(100)).toString()
   const inFormatted = fromBaseUnits(input.amountBase, origin.decimals)
 
   let depositAddress: string | null = null

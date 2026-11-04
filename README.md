@@ -40,3 +40,12 @@ Work in progress. The full README is written in the final build step.
 - The optional "Already sent? Speed it up" box forwards a transaction hash to 1Click's `POST /v0/deposit/submit`.
 - Rate limits per IP: previews 60 per minute, deposit addresses 10 per 10 minutes (and 60 per 10 minutes per creator), status checks 120 per minute, tx hash submits 10 per 10 minutes.
 - Name and message are trimmed, control characters removed, and capped at 40 and 140 characters. They are rendered as text, never as HTML.
+- Creator write routes take the raw manage token in the `x-manage-token` header. `POST /api/goals` names the creator by `handle`. `PATCH /api/goals/[id]` checks the token against the goal's owner, so one creator's token can never change another creator's goal.
+- After 10 bad manage tokens from one IP in 10 minutes, that IP gets 429 for the rest of the window. Correct tokens are not counted. Tokens are 256 random bits, so this is about noise, not guessing.
+- The dashboard reads its data from `GET /api/creators/[handle]/dashboard` (manage token required) rather than straight from Supabase, so the page never needs extra database permissions.
+- Starting a goal ends the previous active one first. If two requests race, the unique index rejects one insert and the route retries once.
+- Goal targets are US dollars, $1 to $1,000,000, rounded to cents. Ended goals cannot be edited; start a new one instead.
+- Editing a target can complete a goal (new target at or below what is raised) or reopen a completed one (new target above what is raised), so the bar always matches the numbers.
+- "End goal" uses an inline "Yes, end it" confirmation instead of a browser dialog.
+- The dashboard refreshes every 8 seconds while the tab is visible, and pauses while the goal form is open. A saved goal shows immediately, and a refresh that started before a save is ignored, so stale data never overwrites a change.
+- "Remember on this device" keeps the manage token in `localStorage` under `cgt_manage_<handle>`. "Lock" removes it. A stored token that stops working is removed automatically.
