@@ -70,7 +70,12 @@
           <CopyButton :value="data.overlayUrl" label="Copy" aria-label="Copy overlay link" />
         </div>
         <p class="muted small">
-          In OBS, add a Browser Source with the overlay link. Tip alerts and your goal bar appear on stream.
+          In OBS, add a Browser Source with the overlay link (1920 by 1080 works well). Tip alerts and your goal bar appear on stream.
+        </p>
+        <p class="muted small">
+          Options: add <span class="mono">?compact=1</span> for smaller alerts, <span class="mono">?sound=0</span> to mute,
+          or <span class="mono">?scale=1.5</span> to resize. Mix them with <span class="mono">&amp;</span>.
+          <a :href="`${data.overlayUrl}?demo=1`" target="_blank" rel="noopener">Preview with demo alerts</a>.
         </p>
         <p class="muted small">
           Payouts go to <span class="mono">{{ data.creator.payoutAddress }}</span>
@@ -298,6 +303,8 @@ export default defineComponent({
       if (!silent) this.refreshing = true
       const seq = this.writeSeq
       try {
+        // Settle open tips with 1Click first, so statuses are fresh even if the fan closed their tab.
+        await $fetch('/api/poll-pending', { method: 'POST', body: { handle: this.handle } }).catch(() => {})
         const fresh = await this.fetchDashboard(this.token)
         if (seq === this.writeSeq) this.data = fresh
         this.refreshError = ''

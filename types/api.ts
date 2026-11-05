@@ -191,3 +191,38 @@ export interface DashboardResponse {
 }
 
 export type { TipStatus }
+
+export interface PollPendingRequest {
+  handle: string
+  /** ISO time. Return tips delivered at or after this. Omit on the first poll. */
+  since?: string
+}
+
+/** A delivered tip, trimmed to what an on-stream alert needs. */
+export interface OverlayTip {
+  id: string
+  tipperName: string | null
+  message: string | null
+  amountIn: string
+  originSymbol: string
+  originChain: string
+  amountOut: string | null
+  amountOutUsd: number | null
+  destSymbol: string
+  settledAt: string | null
+}
+
+export interface PollPendingResponse {
+  creator: { id: string; handle: string; displayName: string; destSymbol: string }
+  goal: GoalWithProgress | null
+  /** How many open tips were checked against 1Click on this call (0 when throttled). */
+  checked: number
+  /** How many of those changed status. */
+  changed: number
+  /** True when another poll for this creator ran moments ago, so 1Click was not asked again. */
+  throttled: boolean
+  /** Tips delivered since `since`, oldest first, max 20. Empty on the first poll. */
+  delivered: OverlayTip[]
+  /** Server clock. Send it back as `since` next time. */
+  serverTime: string
+}
