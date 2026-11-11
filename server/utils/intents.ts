@@ -18,7 +18,7 @@
 //   - GET  /v0/status?depositAddress=&depositMemo=  -> { status, updatedAt, swapDetails, quoteResponse }.
 //                      404 when the deposit address is unknown. swapDetails fields may be null.
 //   - POST /v0/deposit/submit { txHash, depositAddress, nearSenderAccount?, memo? } (optional speed-up).
-//   - Auth is optional. Without a partner JWT every quote carries an extra 0.25% fee.
+//   - Auth is optional. Without a partner JWT every quote carries a small extra fee.
 //     The SDK sends OpenAPI.TOKEN as "Authorization: Bearer", which the docs say is accepted.
 
 import {
@@ -281,7 +281,7 @@ function configureSdk(): void {
   OpenAPI.BASE = env.oneClickApiBase
   OpenAPI.TOKEN = env.oneClickJwt || undefined
   if (!env.oneClickJwt) {
-    console.warn('[intents] ONE_CLICK_JWT is not set. Quotes work but carry the extra 0.25% unauthenticated fee.')
+    console.warn('[intents] ONE_CLICK_JWT is not set. Quotes work but carry a small extra fee.')
   }
   sdkConfigured = true
 }

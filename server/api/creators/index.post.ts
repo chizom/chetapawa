@@ -35,6 +35,9 @@ export default defineApiHandler(async (event): Promise<CreateCreatorResponse> =>
   const db = useServerSupabase()
   if (await getPublicCreator(handle)) throw badRequest('That handle is taken. Try another.')
 
+  const payoutProblem = await probePayoutAddress(token, body.payoutAddress)
+  if (payoutProblem) throw badRequest(payoutProblem)
+
   const manageToken = generateManageToken()
   const { data, error } = await db
     .from('cz_creators')
