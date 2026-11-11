@@ -29,7 +29,7 @@
         <GoalBar :goal="goal" />
       </div>
 
-      <p class="notice notice-warn demo" role="note">
+      <p v-if="!flags.mock" class="notice notice-warn demo" role="note">
         <strong>Hackathon demo. Use small amounts.</strong> There is no testnet for NEAR Intents, so tips are real.
       </p>
 
@@ -186,7 +186,7 @@
         <form class="card" novalidate @submit.prevent="getDepositAddress">
           <h2 id="tip-title">Send a tip</h2>
 
-          <div v-if="tokensLoading" class="skeleton" style="height: 120px" aria-label="Loading tokens" />
+          <div v-if="tokensLoading" class="skeleton" style="height: 120px" role="status" aria-label="Loading tokens" />
           <div v-else-if="tokensError" class="notice notice-danger" role="alert">
             {{ tokensError }} <button class="btn btn-ghost btn-sm" type="button" @click="loadTokens">Retry</button>
           </div>
@@ -256,6 +256,10 @@
             <span id="refund-hint" class="hint">
               If the swap cannot complete, your funds go back here automatically. Use an address you control.
             </span>
+            <span v-if="flags.mock && sampleAddr" class="hint">
+              Mock mode: nothing is sent, so any valid-looking address works.
+              <button type="button" class="link-btn" @click="useExampleRefund">Use an example address</button>
+            </span>
             <span v-if="refundError && touched.refundAddress" class="error" role="alert">{{ refundError }}</span>
           </div>
 
@@ -282,7 +286,7 @@
       </section>
     </template>
 
-    <div v-else class="skeleton" style="height: 320px" aria-label="Loading" />
+    <div v-else class="skeleton" style="height: 320px" role="status" aria-label="Loading" />
   </div>
 </template>
 
@@ -297,7 +301,7 @@ import type {
   TokenInfo,
   TokensResponse
 } from '~~/types/api'
-import { addressExample, checkAddress } from '~~/utils/address'
+import { addressExample, checkAddress, sampleAddress } from '~~/utils/address'
 import { chainName } from '~~/utils/chains'
 import { formatCountdown, formatUsd, tokenAmountForUsd } from '~~/utils/format'
 import { isValidAmount } from '~~/utils/units'
@@ -320,6 +324,8 @@ export default defineComponent({
   async setup() {
     const route = useRoute()
     const handle = String(route.params.handle || '').toLowerCase()
+    // Start both requests before the first await, so Nuxt's context is still available for each.
+    const flagsReq = useAppFlags()
     const { data, error, refresh } = await useFetch<CreatorPublicResponse>(`/api/creators/${encodeURIComponent(handle)}`, {
       key: `creator-${handle}`
     })
@@ -328,7 +334,8 @@ export default defineComponent({
       title: name ? `Tip ${name} · Chetapawa` : 'Tip page · Chetapawa',
       meta: [{ name: 'description', content: name ? `Send ${name} a tip with any token on any chain.` : 'Send a tip with any token on any chain.' }]
     })
-    return { handle, creatorData: data, creatorError: error, refreshCreator: refresh }
+    const { data: flags } = await flagsReq
+    return { handle, creatorData: data, creatorError: error, refreshCreator: refresh, flags }
   },
   data() {
     return {
@@ -360,6 +367,9 @@ export default defineComponent({
     }
   },
   computed: {
+    sampleAddr(): string | null {
+      return this.originToken ? sampleAddress(this.originToken.chain) : null
+    },
     creator() { return this.creatorData?.creator ?? null },
     goal() { return this.creatorData?.goal ?? null },
     loadError(): { status: number } | null {
@@ -465,6 +475,10 @@ export default defineComponent({
         tokens.find((t) => t.symbol === 'USDC') ??
         tokens[0]
       return pick ? pick.assetId : ''
+    },
+    useExampleRefund() {
+      this.form.refundAddress = this.sampleAddr ?? ''
+      this.touched.refundAddress = true
     },
     setUsd(u: number) {
       const t = this.originToken

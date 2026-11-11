@@ -145,6 +145,13 @@ a:hover { color: var(--primary-hover); }
   color: var(--rust);
 }
 
+/* Inline text button, for small actions inside hints. */
+.link-btn {
+  background: none; border: 0; padding: 0; font: inherit; font-weight: 600;
+  color: var(--primary); text-decoration: underline; cursor: pointer;
+}
+.link-btn:hover { color: var(--primary-hover); }
+
 .mono { font-family: var(--mono); word-break: break-all; }
 .muted { color: var(--muted); }
 .sr-only {

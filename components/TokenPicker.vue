@@ -82,6 +82,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.token-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.token-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
 .token-picker .field { margin-bottom: 0; }
 </style>

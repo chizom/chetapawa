@@ -89,7 +89,7 @@
 
         <fieldset class="payout">
           <legend>How you get paid</legend>
-          <div v-if="tokensLoading" class="skeleton" style="height: 72px" aria-label="Loading tokens" />
+          <div v-if="tokensLoading" class="skeleton" style="height: 72px" role="status" aria-label="Loading tokens" />
           <p v-else-if="tokensError" class="notice notice-danger">
             {{ tokensError }} <button type="button" class="btn btn-ghost btn-sm" @click="loadTokens">Retry</button>
           </p>
@@ -102,7 +102,7 @@
             token-label="Receive token"
           />
 
-          <div class="field" style="margin-top: 16px">
+          <div class="field">
             <label for="payoutAddress">Your {{ destChainName }} address</label>
             <input
               id="payoutAddress"
@@ -116,6 +116,10 @@
               @blur="touched.payoutAddress = true"
             >
             <span v-if="touched.payoutAddress && addressError" class="error">{{ addressError }}</span>
+            <span v-if="flags.mock && sampleAddr" class="hint">
+              Mock mode: nothing is sent, so any valid-looking address works.
+              <button type="button" class="link-btn" @click="useExampleAddress">Use an example address</button>
+            </span>
           </div>
           <p id="address-warn" class="notice notice-warn">
             ⚠️ This must be <strong>your own address on {{ destChainName }}</strong>.
@@ -136,7 +140,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import type { CreateCreatorResponse, TokenInfo, TokensResponse } from '~~/types/api'
-import { addressExample, checkAddress } from '~~/utils/address'
+import { addressExample, checkAddress, sampleAddress } from '~~/utils/address'
 import { chainName } from '~~/utils/chains'
 import { checkHandle, normalizeHandle } from '~~/utils/handle'
 
@@ -150,8 +154,10 @@ function errorMessage(err: unknown, fallback: string): string {
 
 export default defineComponent({
   name: 'CreatePage',
-  setup() {
+  async setup() {
     useHead({ title: 'Create your tip page · Chetapawa' })
+    const { data: flags } = await useAppFlags()
+    return { flags }
   },
   data() {
     return {
@@ -167,6 +173,9 @@ export default defineComponent({
     }
   },
   computed: {
+    sampleAddr(): string | null {
+      return this.destToken ? sampleAddress(this.destToken.chain) : null
+    },
     handle(): string {
       return normalizeHandle(this.form.handle)
     },
@@ -193,6 +202,10 @@ export default defineComponent({
     this.loadTokens()
   },
   methods: {
+    useExampleAddress() {
+      this.form.payoutAddress = this.sampleAddr ?? ''
+      this.touched.payoutAddress = true
+    },
     async loadTokens() {
       this.tokensLoading = true
       this.tokensError = ''

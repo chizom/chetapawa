@@ -52,3 +52,27 @@ export function checkAddress(chain: string, address: string): string | null {
 export function addressExample(chain: string): string {
   return ruleFor(chain).example
 }
+
+// Well-known burn or placeholder addresses, used only by the mock mode "Use an example address" button.
+// Nothing is ever sent in mock mode. Each sample must pass checkAddress for its chain.
+const SAMPLES: Record<string, string> = {
+  near: 'demo-creator.near',
+  sol: '11111111111111111111111111111111',
+  btc: 'bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq',
+  tron: 'T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb',
+  xrp: 'rrrrrrrrrrrrrrrrrrrrrhoLvTp',
+  stellar: 'GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7',
+  doge: 'DDogepartyxxxxxxxxxxxxxxxxxxw1dfzr',
+  ltc: 'ltc1qg42tkwuuxefutzxezdkdel39gfstuap288mfea',
+  sui: '0x' + '0'.repeat(63) + '1',
+  aptos: '0x1',
+  movement: '0x1',
+  starknet: '0x1'
+}
+const EVM_SAMPLE = '0x000000000000000000000000000000000000dEaD'
+
+/** A valid-looking sample address for mock mode, or null when we have none for this chain. */
+export function sampleAddress(chain: string): string | null {
+  const s = EVM_CHAINS.has(chain) ? EVM_SAMPLE : SAMPLES[chain]
+  return s && checkAddress(chain, s) === null ? s : null
+}
