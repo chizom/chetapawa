@@ -6,7 +6,8 @@ export interface ServerEnv {
   supabaseServiceRoleKey: string
   oneClickApiBase: string
   oneClickJwt: string
-  mockIntents: boolean
+  /** MOCK_INTENTS as set: true, false, or null when unset or blank. */
+  mockIntents: boolean | null
 }
 
 export function serverEnv(): ServerEnv {
@@ -16,6 +17,6 @@ export function serverEnv(): ServerEnv {
     supabaseServiceRoleKey: e.SUPABASE_SERVICE_ROLE_KEY || '',
     oneClickApiBase: (e.ONE_CLICK_API_BASE || 'https://1click.chaindefuser.com').replace(/\/+$/, ''),
     oneClickJwt: e.ONE_CLICK_JWT || '',
-    mockIntents: e.MOCK_INTENTS === 'true'
+    mockIntents: e.MOCK_INTENTS === 'true' ? true : e.MOCK_INTENTS === 'false' ? false : null
   }
 }

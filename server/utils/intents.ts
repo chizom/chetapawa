@@ -101,13 +101,19 @@ export interface SubmitDepositInput {
 let warnedMockInProd = false
 
 /**
- * Mock mode is on only when MOCK_INTENTS=true. In production it additionally needs
- * MOCK_INTENTS_ALLOW_PRODUCTION=true, so a stray flag can never fake payments on a live site.
+ * Mock mode:
+ * - MOCK_INTENTS=false: real 1Click calls.
+ * - MOCK_INTENTS unset or blank: mock in development (so a clean clone runs with no keys),
+ *   real in production.
+ * - MOCK_INTENTS=true: mock. In production it additionally needs MOCK_INTENTS_ALLOW_PRODUCTION=true,
+ *   so a stray flag can never fake payments on a live site.
  */
 export function isMockMode(): boolean {
   const env = serverEnv()
-  if (!env.mockIntents) return false
-  if (process.env.NODE_ENV === 'production' && process.env.MOCK_INTENTS_ALLOW_PRODUCTION !== 'true') {
+  const production = process.env.NODE_ENV === 'production'
+  if (env.mockIntents === false) return false
+  if (env.mockIntents === null) return !production
+  if (production && process.env.MOCK_INTENTS_ALLOW_PRODUCTION !== 'true') {
     if (!warnedMockInProd) {
       warnedMockInProd = true
       console.error(

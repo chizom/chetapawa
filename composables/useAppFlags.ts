@@ -4,6 +4,6 @@ import type { AppConfigResponse } from '~~/types/api'
 export function useAppFlags() {
   return useFetch<AppConfigResponse>('/api/config', {
     key: 'app-flags',
-    default: () => ({ mock: false })
+    default: () => ({ mock: false, localStore: false })
   })
 }

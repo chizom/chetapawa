@@ -1,24 +1,32 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '~~/types/db'
+import { createLocalDb } from './localDb'
 
-// Server-only Supabase client using the service role key.
+// Server-side database client.
+// With NUXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY set, this is a real Supabase
+// client using the service role key. Without them, it is the local fallback store in
+// server/utils/localDb.ts, so the app runs from a clean clone with no accounts.
 // This file lives under server/ so it is never bundled for the browser.
 
 let client: SupabaseClient<Database> | null = null
 
+/** True when Supabase keys are missing and the local fallback store is used. */
+export function isLocalStore(): boolean {
+  const { supabaseUrl, supabaseServiceRoleKey } = serverEnv()
+  return !supabaseUrl || !supabaseServiceRoleKey
+}
+
 export function useServerSupabase(): SupabaseClient<Database> {
   if (client) return client
 
-  const { supabaseUrl: url, supabaseServiceRoleKey: key } = serverEnv()
-
-  if (!url || !key) {
-    throw createError({
-      statusCode: 503,
-      statusMessage: 'Database is not configured',
-      data: { error: 'Database is not configured. Set NUXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.' }
-    })
+  if (isLocalStore()) {
+    // The local store implements only the query builder methods this app calls,
+    // with the same { data, error } results, so it stands in for the typed client.
+    client = createLocalDb() as unknown as SupabaseClient<Database>
+    return client
   }
 
+  const { supabaseUrl: url, supabaseServiceRoleKey: key } = serverEnv()
   client = createClient<Database>(url, key, {
     auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
   })

@@ -41,6 +41,8 @@ export interface ApiErrorBody {
 
 export interface AppConfigResponse {
   mock: boolean
+  /** True when Supabase is not configured and data lives in the server's local file. */
+  localStore: boolean
 }
 
 export interface GoalWithProgress {

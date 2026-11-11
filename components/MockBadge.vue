@@ -1,6 +1,6 @@
 <template>
   <div v-if="flags && flags.mock" :class="['mock', variant]" role="status">
-    <strong>MOCK mode:</strong> payments are fake. Do not send real funds.
+    <strong>MOCK mode:</strong> payments are fake. Do not send real funds.<span v-if="flags.localStore && variant === 'bar'"> Data is saved locally on this server.</span>
   </div>
 </template>
 
