@@ -2,6 +2,7 @@
   <div class="container">
     <section class="hero">
       <span class="badge">Runs on NEAR Intents</span>
+      <p class="tagline">Pawa your ideas, get gifts.</p>
       <h1>Tips from anywhere, paid where you want.</h1>
       <p class="lead">
         Fans tip with any token on any chain. You get the asset you picked, straight to your own wallet.
@@ -41,7 +42,8 @@ export default defineComponent({ name: 'LandingPage' })
 
 <style scoped>
 .hero { padding: 24px 0 40px; max-width: 640px; }
-.hero .badge { margin-bottom: 16px; }
+.hero .badge { margin-bottom: 12px; }
+.tagline { margin: 0 0 8px; font-weight: 700; color: var(--rust); letter-spacing: 0.01em; }
 .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 24px; }
 .step-list {
   list-style: none; padding: 0; margin: 0;

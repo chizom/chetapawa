@@ -68,7 +68,7 @@ NEAR's role: every payment runs through the NEAR Intents 1Click API. We use GET 
 Implementation: Nuxt 3 and TypeScript, server routes validated with zod, Supabase for storage and realtime, with a local file store and a mock mode so the repo runs with npm install and npm run dev and no keys. Real mode is wired and tested with live dry quotes. See the README for exactly what was verified.
 ```
 
-Character count: 1647. Recount after any edit. If you run a funded swap, change the last sentence to say so.
+Character count: 1638. Recount after any edit. If you run a funded swap, change the last sentence to say so.
 
 ## Form fields
 
