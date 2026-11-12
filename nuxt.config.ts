@@ -14,7 +14,7 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'Pawa your ideas, get gifts. Fans tip with any token on any chain, creators get paid in their own wallet. Powered by NEAR Intents.' },
+        { name: 'description', content: 'Power your goals. Fans tip with any token on any chain, creators get paid in their own wallet. Powered by NEAR Intents.' },
         { name: 'theme-color', content: '#FF6B4A' }
       ],
       link: [

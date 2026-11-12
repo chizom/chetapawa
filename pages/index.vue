@@ -2,7 +2,7 @@
   <div class="container">
     <section class="hero">
       <span class="badge">Runs on NEAR Intents</span>
-      <p class="tagline">Pawa your ideas, get gifts.</p>
+      <p class="tagline">Power your goals.</p>
       <h1>Tips from anywhere, paid where you want.</h1>
       <p class="lead">
         Fans tip with any token on any chain. You get the asset you picked, straight to your own wallet.
