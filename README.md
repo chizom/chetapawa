@@ -247,12 +247,21 @@ No code was taken from any earlier project. The first commit is dated 2026-11-02
 - **Rate limits are in memory.** They reset when the server restarts.
 - **Manage token is the only login.** If a creator loses it, nobody can recover it.
 
-## Future work
+## What's next
 
-- Bank payout through a licensed off-ramp partner.
-- Recurring tips.
-- Several goals at once.
+None of this is built yet. It is the plan for turning Chetapawa into a product after the hackathon.
+
+**Business model.** 1Click quotes accept an app fee (`appFees`), which 1Click pays to a chosen account when the swap settles. A small fee per tip (for example 1%) would fund the product without Chetapawa ever holding the tip itself.
+
+**Product**
+
+- Bank payout through a licensed off-ramp partner, so creators can receive local currency.
 - A wallet-connect pay button, so fans do not copy an address by hand.
+- Recurring tips (monthly support).
+- Several goals at once, and goal pages that can be shared on their own.
+- More overlay styles and an alert sound picker.
+
+**Creators to reach first.** Streamers and creators whose fans are spread across many countries and chains, where a single-chain tip jar loses most fans.
 
 ## License
 

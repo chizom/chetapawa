@@ -1,14 +1,17 @@
 <template>
   <div class="container">
     <section class="hero">
-      <span class="badge">Runs on NEAR Intents</span>
-      <p class="tagline">Power your goals.</p>
-      <h1>Tips from anywhere, paid where you want.</h1>
-      <p class="lead">
-        Fans tip with any token on any chain. You get the asset you picked, straight to your own wallet.
-        We never touch the money.
-      </p>
-      <NuxtLink to="/create" class="btn btn-primary">Create your tip page</NuxtLink>
+      <div class="hero-text">
+        <span class="badge">Runs on NEAR Intents</span>
+        <p class="tagline">Power your goals.</p>
+        <h1>Tips from anywhere, paid where you want.</h1>
+        <p class="lead">
+          Fans tip with any token on any chain. You get the asset you picked, straight to your own wallet.
+          We never touch the money.
+        </p>
+        <NuxtLink to="/create" class="btn btn-primary">Create your tip page</NuxtLink>
+      </div>
+      <HeroArt class="hero-img" />
     </section>
 
     <section class="steps" aria-labelledby="how-title">
@@ -41,7 +44,8 @@ export default defineComponent({ name: 'LandingPage' })
 </script>
 
 <style scoped>
-.hero { padding: 24px 0 40px; max-width: 640px; }
+.hero { padding: 24px 0 40px; display: grid; gap: 28px; align-items: center; }
+@media (min-width: 820px) { .hero { grid-template-columns: 1.1fr 1fr; gap: 40px; } }
 .hero .badge { margin-bottom: 12px; }
 .tagline { margin: 0 0 8px; font-weight: 700; color: var(--rust); letter-spacing: 0.01em; }
 .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 24px; }
