@@ -61,5 +61,5 @@ There is no Intents testnet. Only do this with an amount you can afford to lose 
 ## D. Before publishing
 
 - `npm run build` succeeds.
-- Secrets scan: `git ls-files | xargs grep -nE "eyJ[A-Za-z0-9_-]{20,}|sk_live|service_role\"?\s*[:=]\s*\"?ey"` finds nothing, and `.env` is not tracked (`git ls-files .env` prints nothing).
+- Secrets scan: `git ls-files | xargs grep -nE "eyJ[A-Za-z0-9_-]{20,}|sb_secret_[A-Za-z0-9_]{8,}|sk_live|service_role\"?\s*[:=]\s*\"?ey"` finds nothing, and `.env` is not tracked (`git ls-files .env` prints nothing).
 - After a build, the service role key value does not appear in `.output` (`grep -rlF "<your key>" .output` prints nothing).
