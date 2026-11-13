@@ -161,7 +161,7 @@ All optional. See `.env.example`.
 
 ## Deploy
 
-The app is a standard Nuxt 3 server app. Hosts like Vercel or Netlify detect Nuxt without extra config. Set the Supabase variables and `NUXT_PUBLIC_SITE_URL` in the host's settings. Serverless hosts do not keep local files, so a deployed site needs Supabase. The local data file is for local runs.
+The app is a standard Nuxt 3 server app. `netlify.toml` holds the Netlify build settings (build command, `dist` folder, Node 22). Other hosts like Vercel detect Nuxt without extra config. Set the Supabase variables and `NUXT_PUBLIC_SITE_URL` in the host's settings. Serverless hosts do not keep local files, so a deployed site needs Supabase. The local data file is for local runs.
 
 ## Libraries and tools used
 

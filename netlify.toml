@@ -1,0 +1,10 @@
+# Netlify deploy config. Nuxt (Nitro) detects Netlify and uses its "netlify"
+# preset: pages and API routes run as a Netlify Function, static files go to dist.
+# Set env vars in the Netlify UI (see README "Deploy"), never in this file.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
