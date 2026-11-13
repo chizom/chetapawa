@@ -20,7 +20,7 @@ export default defineApiHandler(async (event): Promise<DashboardResponse> => {
   if (totalsRes.error) throw dbError('load totals', totalsRes.error)
 
   const totalUsd = totalsRes.data.reduce((sum, t) => sum + (Number(t.amount_out_usd) || 0), 0)
-  const site = useRuntimeConfig(event).public.siteUrl.replace(/\/+$/, '')
+  const site = siteBase(event)
   setResponseHeader(event, 'Cache-Control', 'no-store')
   return {
     creator: toPublicCreatorInfo(creator),

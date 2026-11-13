@@ -60,7 +60,7 @@ export default defineApiHandler(async (event): Promise<CreateCreatorResponse> =>
     throw dbError('create creator', error)
   }
 
-  const site = useRuntimeConfig(event).public.siteUrl.replace(/\/+$/, '')
+  const site = siteBase(event)
   setResponseStatus(event, 201)
   return {
     creator: toPublicCreatorInfo(data),
