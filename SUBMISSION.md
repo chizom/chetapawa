@@ -37,7 +37,7 @@ Fans tip in any token on any chain. Creators get the token they chose in their o
 
 Powered by @NEARProtocol Intents (1Click API). No custody.
 
-Mock-mode demo. Repo: <repo link>
+Mock-mode demo. Repo: https://github.com/chizom/chetapawa
 ```
 
 **If the video shows a real funded swap:**
@@ -49,7 +49,7 @@ Fans tip in any token on any chain. Creators get the token they chose in their o
 
 Powered by @NEARProtocol Intents (1Click API). No custody.
 
-Repo: <repo link>
+Repo: https://github.com/chizom/chetapawa
 ```
 
 X counts each link as 23 characters. Both versions fit in 280 with the repo link. Optional extra tags from the rules: @NearLegion @NearBuilders. Attach the demo video (or screenshots only if there is also a hosted demo).
@@ -80,7 +80,7 @@ Character count: 1638. Recount after any edit. If you run a funded swap, change 
 | Team size | Solo builder |
 | Tracks | Real-World Money, Open Innovation |
 | NEAR wallet address | _(your own mainnet NEAR account, lowercase. Prize is sent here.)_ |
-| Repository link | _(public GitHub URL)_ |
+| Repository link | https://github.com/chizom/chetapawa |
 | Demo post link | _(your X post URL)_ |
 | What did you build? | The description above |
 | Website | **Leave empty.** See note below. |
