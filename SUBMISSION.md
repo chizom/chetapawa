@@ -82,7 +82,7 @@ Character count: 1638. Recount after any edit. If you run a funded swap, change 
 | Tracks | Real-World Money, Open Innovation |
 | NEAR wallet address | _(your own mainnet NEAR account, lowercase. Prize is sent here.)_ |
 | Repository link | https://github.com/chizom/chetapawa |
-| Demo post link | _(your X post URL)_ |
+| Demo post link | https://x.com/kingchizom/status/2121710959207006614 |
 | What did you build? | The description above |
 | Website | **Leave empty.** See note below. |
 | Consent checkbox | Tick it only if you agree to the contact notice. |
