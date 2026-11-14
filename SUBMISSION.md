@@ -33,11 +33,12 @@ Pick the version that matches what the video shows.
 ```
 We built Chetapawa at NEAR HACKATHON #NEARHackathon
 
-Fans tip in any token on any chain. Creators get the token they chose in their own wallet plus a live overlay.
+Fans tip in any token on any chain. Creators get their token in their own wallet, plus a stream overlay.
 
-Powered by @NEARProtocol Intents (1Click API). No custody.
+Powered by @NEARProtocol Intents. No custody.
 
-Mock-mode demo. Repo: https://github.com/chizom/chetapawa
+Demo (mock): chetapawa.com
+Repo: github.com/chizom/chetapawa
 ```
 
 **If the video shows a real funded swap:**
