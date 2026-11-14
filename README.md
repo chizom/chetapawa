@@ -3,7 +3,7 @@
 Chetapawa is a tip page for creators and streamers. Fans pay with a token they hold on any supported chain, and the NEAR Intents 1Click API swaps and bridges it into the one token the creator picked, paid straight to the creator's own wallet.
 
 - Demo post on X: _(add link before submitting)_
-- Live site: _(add link before submitting, or remove this line)_
+- Live site: https://chetapawa.com (mock mode demo, see [Real mode status](#real-mode-status-read-this))
 - Built from scratch during the NEAR HACKATHON, Nov 2026.
 
 ## The problem

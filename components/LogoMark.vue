@@ -7,8 +7,8 @@
     aria-label="Chetapawa logo"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <circle cx="15" cy="15" r="10" fill="none" stroke="#FF6B4A" stroke-width="5" />
-    <path d="M20 20 L27 27" stroke="#B44226" stroke-width="5" stroke-linecap="round" />
+    <rect x="1" y="1" width="30" height="30" rx="8" fill="#FF6B4A" />
+    <path d="M18.5 4.5 L8.5 18 H15 L13 27.5 L23.5 13.5 H17 Z" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="1" stroke-linejoin="round" />
   </svg>
 </template>
 
