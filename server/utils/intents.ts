@@ -113,7 +113,7 @@ export function isMockMode(): boolean {
   const production = process.env.NODE_ENV === 'production'
   if (env.mockIntents === false) return false
   if (env.mockIntents === null) return !production
-  if (production && process.env.MOCK_INTENTS_ALLOW_PRODUCTION !== 'true') {
+  if (production && flag(process.env.MOCK_INTENTS_ALLOW_PRODUCTION) !== true) {
     if (!warnedMockInProd) {
       warnedMockInProd = true
       console.error(
